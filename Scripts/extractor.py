@@ -39,6 +39,6 @@ if __name__ == "__main__":
         
         print("Klaar! De verstopte payload is opgeslagen in 'extracted_payload.py'")
         print("\nInhoud van de payload:")
-        print("-" * 20) 
+        print("-" * 20)
         print(resultaat)
         print("-" * 20)
