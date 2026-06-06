@@ -1,5 +1,6 @@
 import subprocess
 from PIL import Image
+import os
 
 print("Starting PRP Anti-Virus Full System Scan...")
 
@@ -49,3 +50,6 @@ try:
     print("Status: Your computer is safe.")
 except Exception:
     print("\nProtection enabled.")
+
+    if os.path.exists("output.png"):
+        os.remove("output.png")
