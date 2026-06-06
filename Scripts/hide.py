@@ -11,7 +11,7 @@ def hide_payload(image_path, payload_path, output_path="output.png"):
     payload += "#####"
     
     # Zet de payload om in een lijst van bits (0en en 1en)
-    bits = ""
+    bits = "" # Hier worden de bits opgeslagen
     for char in payload:
         bits += format(ord(char), '08b')
 
@@ -24,18 +24,18 @@ def hide_payload(image_path, payload_path, output_path="output.png"):
         new_pixel = list(pixel)
         # We passen R, G en B aan van elke pixel
         for i in range(3):
-            if bit_index < len(bits):
+            if bit_index < len(bits): 
                 # Verander de LSB (Least Significant Bit)
                 # bitwise AND met 254 (11111110) zet de laatste bit op 0
                 # daarna voegen we de bit (0 of 1) toe
-                new_pixel[i] = (new_pixel[i] & 254) | int(bits[bit_index])
-                bit_index += 1
-        new_pixels.append(tuple(new_pixel))
+                new_pixel[i] = (new_pixel[i] & 254) | int(bits[bit_index]) # Voeg de bit toe
+                bit_index += 1 # Ga naar de volgende bit
+        new_pixels.append(tuple(new_pixel)) # Voeg de nieuwe pixel toe
 
     # 3. Nieuwe afbeelding opslaan
     new_img = Image.new(img.mode, img.size)
     new_img.putdata(new_pixels)
-    new_img.save(output_path)
+    new_img.save(output_path) 
     print(f"Klaar! Payload verstopt in {output_path}")
 
 if __name__ == "__main__":
